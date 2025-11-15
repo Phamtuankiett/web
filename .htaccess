@@ -1,0 +1,20 @@
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^key/([A-Z0-9]+)$ key.php?c=$1 [L,QSA]
+<Files "database.db">
+    Order Allow,Deny
+    Deny from all
+</Files>
+<FilesMatch "\.(db|sqlite|sqlite3)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+php_value upload_max_filesize 10M
+php_value post_max_size 10M
+php_value max_execution_time 300
+php_value max_input_time 300
